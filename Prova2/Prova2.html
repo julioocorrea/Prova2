@@ -222,12 +222,12 @@ function pintarFilmes() {
     const tabelaLocacao = document.getElementById("locacao").getElementsByTagName('tbody')[0].getElementsByTagName('tr');
 
     for (let i = 0; i < tabelaFilmes.length; i++) {
-        const filme = tabelaFilmes[i].getElementsByTagName('td')[0].innerText;
+        const filme = tabelaFilmes[i].getElementsByTagName('td')[0].innerText.trim();
         let locado = false;
 
         for (let j = 0; j < tabelaLocacao.length; j++) {
-            const filmeLocado = tabelaLocacao[j].getElementsByTagName('td')[3].innerText;
-            const dataDevolucao = tabelaLocacao[j].getElementsByTagName('td')[1].innerText;
+            const filmeLocado = tabelaLocacao[j].getElementsByTagName('td')[3].innerText.trim();
+            const dataDevolucao = tabelaLocacao[j].getElementsByTagName('td')[1].innerText.trim();
 
             if (filme === filmeLocado && dataDevolucao === '') {
                 locado = true;
@@ -245,34 +245,37 @@ function pintarFilmes() {
 
 pintarFilmes();
 
-
-const formulario = document.getElementById("formulario")
+const formulario = document.getElementById("formulario");
 
 formulario.addEventListener("submit", (event) => {
-  event.preventDefault()
-  const formulario = event.target
+    event.preventDefault();
+    const formulario = event.target;
 
-  const dataLocacao = formulario.dataLocacao
-  const NomeCliente = formulario.NomeCliente
-  const filmeLocado = formulario.filmeLocado
+    const dataLocacao = formulario.dataLocacao.value;
+    const NomeCliente = formulario.NomeCliente.value;
+    const filmeLocado = formulario.filmeLocado.value;
 
-  const tr = criarElementoComConteudo("tr")
+    const tr = document.createElement("tr");
 
-  const tdDataLocacao = criarElementoComConteudo("td", formatarData(dataLocacao.value))
-  const tdDataDevolucao = criarElementoComConteudo("td") 
-  const tdNomeCliente = criarElementoComConteudo("td", NomeCliente.value)
-  const tdfilmeLocado = criarElementoComConteudo("td", filmeLocado.value)
+    const tdDataLocacao = criarElementoComConteudo("td", formatarData(dataLocacao));
+    const tdDataDevolucao = criarElementoComConteudo("td", ""); // Define a data de devolução como vazia
+    const tdNomeCliente = criarElementoComConteudo("td", NomeCliente);
+    const tdFilmeLocado = criarElementoComConteudo("td", filmeLocado);
 
-  tr.appendChild(tdDataLocacao)
-  tr.appendChild(tdDataDevolucao)
-  tr.appendChild(tdNomeCliente)
-  tr.appendChild(tdfilmeLocado)
+    tr.appendChild(tdDataLocacao);
+    tr.appendChild(tdDataDevolucao);
+    tr.appendChild(tdNomeCliente);
+    tr.appendChild(tdFilmeLocado);
 
-  const tabelaLocacao = document.getElementById("locacao")
-  tabelaLocacao.children[1].appendChild(tr)
+    const tabelaLocacao = document.getElementById("locacao").getElementsByTagName('tbody')[0];
+    tabelaLocacao.appendChild(tr);
 
-  formulario.reset()
-})
+    formulario.reset();
+
+    // Atualiza a contagem de locações e pinta os filmes
+    VerificarLocacoes();
+    pintarFilmes();
+});
 
 function criarElementoComConteudo(elemento, conteudo){
     const node = document.createElement(elemento)
