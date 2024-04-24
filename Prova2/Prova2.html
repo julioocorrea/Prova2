@@ -65,6 +65,16 @@
     }
 
   </style>
+  <style>
+    /* Estilos para as linhas de filmes disponíveis */
+    .disponivel {
+      background-color: #8BC34A; /* verde */
+    }
+    /* Estilos para as linhas de filmes alugados */
+    .alugado {
+      background-color: #FF5722; /* vermelho */
+    }
+  </style>
 </head>
 <body>
 
@@ -198,6 +208,28 @@
 
 <script>
 
+document.addEventListener("DOMContentLoaded", function() {
+      var locacoes = document.getElementById("locacao").getElementsByTagName("tr");
+      var filmes = document.getElementById("filmes").getElementsByTagName("tr");
+      
+      for (var i = 1; i < filmes.length; i++) { // Começa em 1 para pular o cabeçalho
+        var filmeNome = filmes[i].getElementsByTagName("td")[0].innerText;
+
+        for (var j = 1; j < locacoes.length; j++) { // Começa em 1 para pular o cabeçalho
+          var filmeLocado = locacoes[j].getElementsByTagName("td")[3].innerText;
+          var dataDevolucao = locacoes[j].getElementsByTagName("td")[1].innerText;
+
+          if (filmeNome === filmeLocado && dataDevolucao === "") {
+            filmes[i].classList.add("alugado");
+            break; // Se encontrado como alugado, para de verificar as locações
+          } else {
+            filmes[i].classList.add("disponivel");
+          }
+        }
+      }
+});
+
+
 function VerificarLocacoes() {
     const tabelaFilmes = document.getElementById("filmes").getElementsByTagName('tbody');
     const tabelaLocacao = document.getElementById("locacao").getElementsByTagName('tbody');
@@ -217,33 +249,6 @@ function VerificarLocacoes() {
 
 VerificarLocacoes();
 
-function pintarFilmes() {
-    const tabelaFilmes = document.getElementById("filmes").getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-    const tabelaLocacao = document.getElementById("locacao").getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-
-    for (let i = 0; i < tabelaFilmes.length; i++) {
-        const filme = tabelaFilmes[i].getElementsByTagName('td')[0].innerText.trim();
-        let locado = false;
-
-        for (let j = 0; j < tabelaLocacao.length; j++) {
-            const filmeLocado = tabelaLocacao[j].getElementsByTagName('td')[3].innerText.trim();
-            const dataDevolucao = tabelaLocacao[j].getElementsByTagName('td')[1].innerText.trim();
-
-            if (filme == filmeLocado && dataDevolucao == '') {
-                locado = true;
-                break;
-            }
-        }
-
-        if (locado) {
-            tabelaFilmes[i].style.backgroundColor = 'red';
-        } else {
-            tabelaFilmes[i].style.backgroundColor = 'green';
-        }
-    }
-}
-
-pintarFilmes();
 
 const formulario = document.getElementById("formulario");
 
