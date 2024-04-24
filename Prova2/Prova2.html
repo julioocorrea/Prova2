@@ -229,7 +229,7 @@ function pintarFilmes() {
             const filmeLocado = tabelaLocacao[j].getElementsByTagName('td')[3].innerText.trim();
             const dataDevolucao = tabelaLocacao[j].getElementsByTagName('td')[1].innerText.trim();
 
-            if (filme === filmeLocado && dataDevolucao === '') {
+            if (filme == filmeLocado && dataDevolucao == '') {
                 locado = true;
                 break;
             }
@@ -271,10 +271,6 @@ formulario.addEventListener("submit", (event) => {
     tabelaLocacao.appendChild(tr);
 
     formulario.reset();
-
-    // Atualiza a contagem de locações e pinta os filmes
-    VerificarLocacoes();
-    pintarFilmes();
 });
 
 function criarElementoComConteudo(elemento, conteudo){
